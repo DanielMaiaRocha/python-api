@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 
 from ma import ma
 from db import db
-from controllers.cars import Cars
+from controllers.cars import Cars, CarsList
 
 from server.instance import server
 
@@ -15,6 +15,7 @@ def create_tables():
     db.create_all()
 
 api.add_resource(Cars, '/cars/<int:id>')
+api.add_resource(CarsList, '/cars')
 
 
 if __name__ == '__main__':

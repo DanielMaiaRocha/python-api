@@ -32,7 +32,7 @@ class carsModel(db.Model):
     def find_all(cls):
         return cls.query.all()
     
-    def save_to_db(self, ):
+    def save_to_db(self):
         db.session.add(self)
         db.session.commit()
     
