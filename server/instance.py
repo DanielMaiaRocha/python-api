@@ -12,10 +12,10 @@ class Server():
         self.app.config['PROPAGATE_EXCEPETIONS'] = True 
         self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
         
-        self.cars_ns = self.cars_ns()
+        self.client_ns = self.client_ns()
         
-    def cars_ns(self, ):
-        return self.api.namespace(name='Cars', description='cars related operation', path='/')
+    def client_ns(self, ):
+        return self.api.namespace(name='Client', description='Client related operation', path='/')
         
     def run(self, ):
         self.app.run(
