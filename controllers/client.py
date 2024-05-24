@@ -11,11 +11,17 @@ client_ns = server.client_ns
 client_schema = clientSchema()
 
 ITEM_NOT_FOUND = 'Client not Found'
+INVALID_CREDENTIALS = 'Invalid Credentials'
 
 item = client_ns.model('Client', {
     'Name': fields.String(description='Client Name'),
     'Email': fields.String(description='Client Email'),
     'Password': fields.String(description='Client Password'),
+})
+
+login_model = client_ns.model('Login', {
+    'Email': fields.String(description='Client Email', required=True),
+    'Password': fields.String(description='Client Password', required=True),
 })
 
 class Client(Resource):
@@ -40,3 +46,16 @@ class ClientList(Resource):
         client_data.save_to_db()
         
         return client_schema.dump(client_data), 201
+
+class Login(Resource):
+    @client_ns.expect(login_model)
+    def post(self):
+        login_data = request.get_json()
+        email = login_data.get('Email')
+        password = login_data.get('Password')
+
+        client = clientModel.find_by_email(email)
+        if client and client.check_password(password):
+            return {'message': 'Login successful', 'client': client_schema.dump(client)}, 200
+        else:
+            return {'message': INVALID_CREDENTIALS}, 401    

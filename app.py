@@ -3,7 +3,7 @@ from marshmallow import ValidationError
 
 from ma import ma
 from db import db
-from controllers.client import Client, ClientList 
+from controllers.client import Client, ClientList, Login 
 
 from server.instance import server
 
@@ -16,6 +16,7 @@ def create_tables():
 
 api.add_resource(Client, '/client/<int:id>')
 api.add_resource(ClientList, '/client')
+api.add_resource(Login, '/client')
 
 
 if __name__ == '__main__':
