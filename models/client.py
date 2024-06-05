@@ -35,6 +35,14 @@ class clientModel(db.Model):
     def find_all(cls):
         return cls.query.all()
     
+    @classmethod 
+    def find_by_email(cls, email):
+        return cls.query.filter_by(Email=email).first()
+    
+    @classmethod
+    def check_password(self, provided_password):
+        return self.password == provided_password
+    
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()

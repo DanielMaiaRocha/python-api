@@ -25,6 +25,14 @@ login_model = client_ns.model('Login', {
 })
 
 class Client(Resource):
+    def post(self):
+        data = request.get_json()  
+        client = ClientModel(**data) 
+        try:
+            client.save_to_db()  
+            return {'message': 'Client created successfully'}, 201
+        except:
+            return {'message': 'An error occurred while creating the client'}, 500
     
     def get(self, id):
         client_data = clientModel.find_by_id(id)
@@ -55,7 +63,7 @@ class Login(Resource):
         password = login_data.get('Password')
 
         client = clientModel.find_by_email(email)
-        if client and client.check_password(password):
+        if client and client.check_password(password): 
             return {'message': 'Login successful', 'client': client_schema.dump(client)}, 200
         else:
-            return {'message': INVALID_CREDENTIALS}, 401    
+            return {'message': INVALID_CREDENTIALS}, 401
